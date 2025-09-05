@@ -1,0 +1,15 @@
+Python
+Java
+C++
+SQL
+Machine Learning
+Deep Learning
+HTML
+CSS
+JavaScript
+React
+Excel
+Communication
+Data Visualization
+Statistics
+Algorithms

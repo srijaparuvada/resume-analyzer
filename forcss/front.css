@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #1a1a66, #0c0c4d);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.upload-box {
+  background-color: rgba(255, 255, 255, 0.06);
+  padding: 30px 40px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  margin-left: 30px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label[for="resume"] {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #1a1a66;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #2196f3;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  color: white;
+  border-radius: 8px;
+  cursor:pointer;
+  transition: background-color 0.5s;
+}
+
+button:hover {
+  background-color: #0b7dda;
+}
+

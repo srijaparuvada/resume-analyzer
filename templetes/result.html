@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Resume Results</title>
+</head>
+<body>
+  <h1>✅ Resume Extracted Text (Preview)</h1>
+  <pre style="white-space: pre-wrap;">{{ resume_text }}</pre>
+
+  <h2>🎯 Extracted Skills</h2>
+  {% if extracted_skills %}
+    <ul>
+      {% for skill in extracted_skills %}
+        <li>{{ skill }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No skills found from the skills list.</p>
+  {% endif %}
+
+  <h2>💼 Recommended Jobs</h2>
+{% if job_recommendations %}
+  <ol>
+    {% for job, score, matched, missing in job_recommendations %}
+      <li>
+        <b>{{ job }}</b> — Match: {{ "%.1f" | format(score) }}%
+        <br><small>Matched Skills: {{ matched }}</small>
+        <br><small>Missing Skills: 
+          {% if missing %}
+            <span style="color: red;">{{ missing }}</span>
+          {% else %}
+            ✅ None, you are well-suited!
+          {% endif %}
+        </small>
+      </li>
+      <br>
+    {% endfor %}
+  </ol>
+{% else %}
+  <p>No matching jobs found.</p>
+{% endif %}
+
+<h2>📌 Resume Improvement Tips</h2>
+<ul>
+  <li>Include missing skills relevant to your target jobs.</li>
+  <li>Highlight your achievements with numbers (e.g., “Improved efficiency by 20%”).</li>
+  <li>Keep formatting clean and consistent.</li>
+  <li>Tailor the resume for each job role.</li>
+</ul>
+
+
+  <br><a href="/">⬅️ Back</a>
+</body>
+</html>
