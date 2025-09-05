@@ -1,15 +1,130 @@
-Python
-Java
-C++
-SQL
-Machine Learning
-Deep Learning
-HTML
-CSS
-JavaScript
-React
-Excel
-Communication
-Data Visualization
-Statistics
-Algorithms
+python
+java
+javascript
+html
+css
+react
+angular
+vue.js
+node.js
+express
+django
+flask
+sql
+postgresql
+mysql
+mongodb
+sqlite
+git
+github
+gitlab
+docker
+kubernetes
+aws
+azure
+gcp
+terraform
+ansible
+jenkins
+ci/cd
+linux
+bash
+powershell
+machine learning
+deep learning
+tensorflow
+pytorch
+scikit-learn
+pandas
+numpy
+matplotlib
+seaborn
+data visualization
+statistics
+algorithms
+data structures
+problem solving
+rest api
+graphql
+microservices
+agile
+scrum
+testing
+selenium
+automation
+api testing
+performance testing
+figma
+sketch
+adobe xd
+prototyping
+user research
+wireframing
+design systems
+usability testing
+network security
+penetration testing
+firewalls
+encryption
+vulnerability assessment
+incident response
+apache spark
+hadoop
+kafka
+airflow
+etl
+data warehousing
+big data
+networking
+cisco
+routing
+switching
+vpn
+tcp/ip
+network monitoring
+troubleshooting
+c
+c++
+microcontrollers
+arduino
+raspberry pi
+rtos
+embedded linux
+hardware design
+protocols
+monitoring
+backup
+virtualization
+scalability
+performance optimization
+android
+ios
+swift
+kotlin
+react native
+flutter
+firebase
+typescript
+webpack
+sass
+responsive design
+product strategy
+roadmapping
+stakeholder management
+communication
+user experience
+user interface
+database design
+indexing
+performance tuning
+research
+mathematics
+publications
+lambda
+s3
+ec2
+cloudformation
+bug tracking
+test planning
+oracle
+windows server

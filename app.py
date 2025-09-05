@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from PyPDF2 import PdfReader
 from docx import Document
 import os
 import re
 import pandas as pd
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='frontend', static_folder='frontend')
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -30,6 +30,10 @@ def parse_resume(file_path):
         return extract_text_from_pdf(file_path)
     elif file_path.endswith(".docx"):
         return extract_text_from_docx(file_path)
+    elif file_path.endswith(".txt"):
+        # Support .txt files for testing
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return f.read()
     else:
         return "Unsupported file type"
 
@@ -80,17 +84,21 @@ def match_jobs(extracted_skills, jobs_df):
 # ---------- Routes ----------
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("front.html")
 
-@app.route("/upload", methods=["POST"])
-def upload():
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    return send_from_directory('frontend', filename)
+
+@app.route("/api/upload", methods=["POST"])
+def api_upload():
     if "resume" not in request.files:
-        return "⚠️ No file uploaded", 400
+        return jsonify({"error": "No file uploaded"}), 400
 
     file = request.files["resume"]
 
     if file.filename == "":
-        return "⚠️ No selected file", 400
+        return jsonify({"error": "No selected file"}), 400
 
     file_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
     file.save(file_path)
@@ -106,10 +114,11 @@ def upload():
     jobs_df = load_jobs()
     job_recommendations = match_jobs(extracted_skills, jobs_df)
 
-    return render_template("result.html",
-                           resume_text=resume_text[:1000],  # preview
-                           extracted_skills=extracted_skills,
-                           job_recommendations=job_recommendations)
+    return jsonify({
+        "resume_text": resume_text[:1000],  # preview
+        "extracted_skills": extracted_skills,
+        "job_recommendations": job_recommendations
+    })
 
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+
+# Application instance is imported by main.py

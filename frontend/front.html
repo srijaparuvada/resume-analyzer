@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Analyzer</title>
+    <link rel="stylesheet" href="/static/front.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>Resume Analyzer</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="hero-section">
+                <h1 class="hero-title">Unlock Your Career Potential</h1>
+                <p class="hero-subtitle">Analyze your resume with and get personalized job recommendations tailored to your skills</p>
+            </div>
+
+            <div class="upload-section">
+                <div class="upload-container" id="uploadContainer">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Upload Your Resume</h3>
+                    <p>Drag and drop your PDF, DOCX, or TXT file here, or click to browse</p>
+                    <input type="file" id="resumeFile" accept=".pdf,.docx,.txt" hidden>
+                    <button class="upload-btn" onclick="document.getElementById('resumeFile').click()">
+                        <i class="fas fa-file-upload"></i>
+                        Choose File
+                    </button>
+                    <div class="file-info" id="fileInfo" style="display: none;">
+                        <i class="fas fa-file-alt"></i>
+                        <span id="fileName"></span>
+                        <button class="remove-file" onclick="removeFile()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="upload-confirmation-main" id="uploadConfirmationMain" style="display: none;">
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="uploadedFileNameMain"></span> uploaded successfully!
+                    </div>
+                </div>
+
+                <button class="analyze-btn" id="analyzeBtn" disabled onclick="analyzeResume()">
+                    <span class="btn-text">Analyze Resume</span>
+                    <div class="loading-spinner" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Analyzing...</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-search"></i>
+                    <h4>Smart Skill Detection</h4>
+                    <p>AI-powered extraction of technical and soft skills from your resume</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-briefcase"></i>
+                    <h4>Job Matching</h4>
+                    <p>Get matched with relevant job opportunities based on your skills</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Career Insights</h4>
+                    <p>Receive actionable recommendations to improve your resume</p>
+                </div>
+            </div>
+        </main>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <button class="back-btn" onclick="newAnalysis()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </button>
+                <h2>Analysis Results</h2>
+                <button class="new-analysis-btn" onclick="newAnalysis()">
+                    <i class="fas fa-plus"></i>
+                    New Analysis
+                </button>
+            </div>
+            
+            <div class="upload-confirmation" id="uploadConfirmation">
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="uploadedFileName"></span> uploaded successfully!
+                </div>
+            </div>
+            
+            <div class="results-content">
+                <div class="skills-section">
+                    <h3><i class="fas fa-tools"></i> Detected Skills</h3>
+                    <div class="skills-grid" id="skillsGrid"></div>
+                </div>
+
+                <div class="jobs-section">
+                    <h3><i class="fas fa-briefcase"></i> Recommended Jobs</h3>
+                    <div class="jobs-list" id="jobsList"></div>
+                </div>
+
+                <div class="tips-section">
+                    <h3><i class="fas fa-lightbulb"></i> Resume Improvement Tips</h3>
+                    <div class="tips-list">
+                        <div class="tip">
+                            <i class="fas fa-check-circle"></i>
+                            Include missing skills relevant to your target jobs
+                        </div>
+                        <div class="tip">
+                            <i class="fas fa-check-circle"></i>
+                            Highlight achievements with quantifiable results
+                        </div>
+                        <div class="tip">
+                            <i class="fas fa-check-circle"></i>
+                            Keep formatting clean and consistent
+                        </div>
+                        <div class="tip">
+                            <i class="fas fa-check-circle"></i>
+                            Tailor your resume for each job application
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File upload handling
+        const resumeFile = document.getElementById('resumeFile');
+        const uploadContainer = document.getElementById('uploadContainer');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+
+        resumeFile.addEventListener('change', handleFileSelect);
+
+        // Drag and drop functionality
+        uploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadContainer.classList.add('drag-over');
+        });
+
+        uploadContainer.addEventListener('dragleave', () => {
+            uploadContainer.classList.remove('drag-over');
+        });
+
+        uploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadContainer.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                resumeFile.files = files;
+                handleFileSelect();
+            }
+        });
+
+        function handleFileSelect() {
+            const file = resumeFile.files[0];
+            if (file) {
+                fileName.textContent = file.name;
+                fileInfo.style.display = 'flex';
+                analyzeBtn.disabled = false;
+                uploadContainer.style.display = 'none';
+                
+                // Show upload confirmation immediately
+                const uploadConfirmationMain = document.getElementById('uploadConfirmationMain');
+                const uploadedFileNameMain = document.getElementById('uploadedFileNameMain');
+                uploadedFileNameMain.textContent = file.name;
+                uploadConfirmationMain.style.display = 'block';
+            }
+        }
+
+        function removeFile() {
+            resumeFile.value = '';
+            fileInfo.style.display = 'none';
+            analyzeBtn.disabled = true;
+            uploadContainer.style.display = 'block';
+            
+            // Hide upload confirmation
+            const uploadConfirmationMain = document.getElementById('uploadConfirmationMain');
+            uploadConfirmationMain.style.display = 'none';
+        }
+
+        async function analyzeResume() {
+            const file = resumeFile.files[0];
+            if (!file) return;
+
+            // Show loading state
+            const btnText = document.querySelector('.btn-text');
+            const loadingSpinner = document.querySelector('.loading-spinner');
+            btnText.style.display = 'none';
+            loadingSpinner.style.display = 'flex';
+            analyzeBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('resume', file);
+
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const responseText = await response.text();
+                console.log('Raw response:', responseText);
+                
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('JSON parse error:', parseError);
+                    throw new Error('Invalid JSON response from server');
+                }
+
+                displayResults(data);
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert('Error uploading file: ' + error.message);
+            } finally {
+                // Reset button state
+                btnText.style.display = 'block';
+                loadingSpinner.style.display = 'none';
+                analyzeBtn.disabled = false;
+            }
+        }
+
+        function displayResults(data) {
+            // Show results section
+            document.getElementById('resultsSection').style.display = 'block';
+            document.querySelector('.main-content').style.display = 'none';
+            
+            // Show uploaded file name confirmation
+            const uploadedFileName = document.getElementById('uploadedFileName');
+            const fileName = resumeFile.files[0].name;
+            uploadedFileName.textContent = fileName;
+
+            // Display skills
+            const skillsGrid = document.getElementById('skillsGrid');
+            skillsGrid.innerHTML = '';
+            if (data.extracted_skills && data.extracted_skills.length > 0) {
+                data.extracted_skills.forEach(skill => {
+                    const skillTag = document.createElement('span');
+                    skillTag.className = 'skill-tag';
+                    skillTag.innerHTML = `<i class="fas fa-check"></i>${skill}`;
+                    skillsGrid.appendChild(skillTag);
+                });
+            } else {
+                skillsGrid.innerHTML = '<p class="no-data">No skills detected. Try uploading a more detailed resume.</p>';
+            }
+
+            // Display job recommendations
+            const jobsList = document.getElementById('jobsList');
+            jobsList.innerHTML = '';
+            if (data.job_recommendations && data.job_recommendations.length > 0) {
+                data.job_recommendations.forEach(([jobTitle, matchPercent, matchedSkills, missingSkills]) => {
+                    const jobCard = document.createElement('div');
+                    jobCard.className = 'job-card';
+                    jobCard.innerHTML = `
+                        <div class="job-header">
+                            <h4>${jobTitle}</h4>
+                            <div class="match-score">
+                                <div class="score-circle" style="background: conic-gradient(#22c55e ${matchPercent * 3.6}deg, #e5e7eb 0deg)">
+                                    <span>${Math.round(matchPercent)}%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="job-skills">
+                            <div class="matched-skills">
+                                <strong>Matched Skills:</strong>
+                                ${matchedSkills.map(skill => `<span class="skill-match">${skill}</span>`).join('')}
+                            </div>
+                            ${missingSkills.length > 0 ? `
+                                <div class="missing-skills">
+                                    <strong>Skills to Learn:</strong>
+                                    ${missingSkills.map(skill => `<span class="skill-missing">${skill}</span>`).join('')}
+                                </div>
+                            ` : '<div class="perfect-match"><i class="fas fa-star"></i> Perfect match!</div>'}
+                        </div>
+                    `;
+                    jobsList.appendChild(jobCard);
+                });
+            } else {
+                jobsList.innerHTML = '<p class="no-data">No job matches found. Try updating your resume with more technical skills.</p>';
+            }
+
+            // Smooth scroll to results
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function newAnalysis() {
+            document.getElementById('resultsSection').style.display = 'none';
+            document.querySelector('.main-content').style.display = 'block';
+            removeFile();
+            
+            // Hide main upload confirmation
+            const uploadConfirmationMain = document.getElementById('uploadConfirmationMain');
+            uploadConfirmationMain.style.display = 'none';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

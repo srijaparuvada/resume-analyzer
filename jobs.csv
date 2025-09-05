@@ -1,6 +1,21 @@
 Job Role,Required Skills
-Data Scientist,Python;Machine Learning;SQL;Statistics
-Web Developer,HTML;CSS;JavaScript;React
-Software Engineer,Java;C++;Problem Solving
-Business Analyst,Excel;Communication;Data Visualization
-AI Engineer,Python;Deep Learning;Machine Learning
+Software Engineer,python; java; javascript; react; node.js; sql; git; algorithms; data structures; problem solving
+Full Stack Developer,html; css; javascript; react; angular; node.js; express; mongodb; postgresql; rest api; git
+Data Scientist,python; r; machine learning; pandas; numpy; scikit-learn; tensorflow; sql; statistics; data visualization
+Machine Learning Engineer,python; tensorflow; pytorch; scikit-learn; machine learning; deep learning; algorithms; statistics; aws; docker
+DevOps Engineer,docker; kubernetes; aws; jenkins; terraform; ansible; linux; bash; git; ci/cd; monitoring
+Frontend Developer,html; css; javascript; react; vue.js; angular; typescript; webpack; sass; responsive design
+Backend Developer,python; java; node.js; express; django; flask; postgresql; mongodb; rest api; microservices
+Mobile App Developer,java; kotlin; swift; react native; flutter; android; ios; firebase; sqlite; api integration
+Cloud Engineer,aws; azure; gcp; terraform; docker; kubernetes; lambda; s3; ec2; cloudformation
+Cybersecurity Analyst,network security; penetration testing; firewalls; encryption; vulnerability assessment; incident response; linux; python
+Data Engineer,python; sql; apache spark; hadoop; kafka; airflow; etl; data warehousing; aws; big data
+QA Engineer,testing; selenium; automation; java; python; api testing; performance testing; test planning; bug tracking
+Product Manager,product strategy; agile; scrum; user research; analytics; roadmapping; stakeholder management; communication
+UI/UX Designer,figma; sketch; adobe xd; prototyping; user research; wireframing; design systems; usability testing
+Systems Administrator,linux; windows server; networking; bash; powershell; virtualization; backup; monitoring; troubleshooting
+Database Administrator,sql; postgresql; mysql; oracle; database design; performance tuning; backup; security; indexing
+Network Engineer,networking; cisco; routing; switching; firewalls; vpn; tcp/ip; network monitoring; troubleshooting
+Embedded Systems Engineer,c; c++; microcontrollers; arduino; raspberry pi; rtos; embedded linux; hardware design; protocols
+AI Research Scientist,python; machine learning; deep learning; tensorflow; pytorch; research; algorithms; mathematics; publications
+Site Reliability Engineer,linux; python; kubernetes; monitoring; automation; incident response; performance optimization; scalability
